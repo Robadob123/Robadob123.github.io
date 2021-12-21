@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta name="description" content="Use a free Google Firebase Database to allow visitors to leave comments on your web pages. From https://AlanSimpson.me/firebase">      
 <title>we want the best | Top123</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,7 +14,19 @@
 <link href="https://fonts.googleapis.com/css?family=Prompt" rel="stylesheet">
 <link rel="icon" href="icon_two.png.png" type="image/gif" sizes="16x16">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7365746755544943"
-     crossorigin="anonymous"></script>
+ crossorigin="anonymous"></script>
+
+ <style>
+ /* Just come optional fonts and characters for styling */
+ @import url('https://fonts.googleapis.com/css?family=Josefin+Sans|Open+Sans|Pacifico|Source+Code+Pro');
+ /* FontAwesome cdn fonts */
+ @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+
+</style>
+
+
+
+
 </head>
 
 <body>
@@ -130,6 +143,100 @@ What's your favourite football team, and football player? Send a mail down below
 
     
     </div>
+     
+     
+     
+     
+     
+     
+       <div id="allcomments">
+        <h3 style="color: #ed7f64; font-size: 30px;">Comments</h3>
+        <!-- We will show past comments in the list below-->
+        <ul id="pastcomments"></ul>
+        <!-- This is the form for entering a new comment -->
+        <form id="newcomment">
+            <label for="tbName" style="color: #eb542f; font-size: 18px;">First Name or Initials</label>
+            <br>
+            <input id="tbName" type="text" maxlength="20" required>
+            <br>
+            <label for="txComment" style="color: #eb542f; font-size: 18px;">Your Comment / Question</label>
+            <br>
+            <textarea id="txComment" maxlength="4096" required style="width:53%"></textarea>
+            <br>
+            <button type="submit" id="btnSubmitComment" value="Submit Comment" style="background-color: #b10a0acb;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 13px;
+            margin: 4px 2px;
+            cursor: pointer; border-radius: 5px;">Submit Comment</button>
+        </form>
+    </div>
+    <!-- Connection to Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/5.0.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.0.1/firebase-database.js"></script>
+
+    <script>
+        // Initialize Firebase - be sure to use your own code, this connects to my database.
+        // Initialize Firebase
+        const firebaseConfig = {
+    apiKey: "AIzaSyAjhicyaK_pReiEEBmN-aJczihAeIdUhOw",
+    authDomain: "comments2-8b68e.firebaseapp.com",
+    databaseURL: "https://comments2-8b68e-default-rtdb.firebaseio.com",
+    projectId: "comments2-8b68e",
+    storageBucket: "comments2-8b68e.appspot.com",
+    messagingSenderId: "720185518705",
+    appId: "1:720185518705:web:b4c2643bb56112c909c9d0"
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+        //Rootref is the whole database.
+        const rootRef = firebase.database().ref();
+        //commentsRef is just the pageCountsNode
+        const commentsRef = rootRef.child('comments');
+        //Listen for click on Submit Comment button, and post comment.
+        document.getElementById("btnSubmitComment").addEventListener("click", function () {
+            //Replace line breaks in comment with br tags.
+            var newcomment = document.getElementById('txComment').value.replace(/\n/g, "<br>");
+            //Define a new, keyed post.
+            var newPostRef = commentsRef.push();
+            //Fill tne new keyed post with data
+            newPostRef.set({
+                name: document.getElementById('tbName').value.trim(),
+                comment: newcomment.trim(),
+                frompage: location.pathname,
+                when: firebase.database.ServerValue.TIMESTAMP
+            });
+        });
+
+        function showpastcomments() {
+            var showat = document.getElementById('pastcomments');
+            //Get comments whose from page equals this page's pathname.
+            var commentsRef = firebase.database().ref('comments/').orderByChild('frompage').equalTo(location.pathname);
+            commentsRef.once('value', function (snapshot) {
+                snapshot.forEach(function (itemSnapshot) {
+                    //Get the object for one snapshot
+                    var itemData = itemSnapshot.val();
+                    var comment = itemData.comment;
+                    var name = itemData.name;
+                    var when = new Date(itemData.when).toLocaleDateString("en-us");
+                    showat.innerHTML += "<li>" + comment + "<span> -- " + name + " (" + when +
+                        ")</span></li>";
+                })
+            })
+        }
+        //Called when page first opens and also after Submit button click to show all comments for this page.
+        showpastcomments()
+    </script>
+     
+     
+     
+     
+     
     
 
 

@@ -55,7 +55,7 @@
   
   pre {
     font-family: monospace, monospace; /* 1 */
-    font-size: 1em; /* 2 */
+    font-size: 1em; /* 2 */ 
   }
   
   /* Text-level semantics
@@ -363,7 +363,6 @@
   }
   
   ul li {
-    display: inline;
     list-style-type: none;
   }
   
@@ -1085,3 +1084,77 @@ transition: 0.3s;
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*Comment system*/
+
+  
+     body {
+         font-family: 'Open Sans', sans-serif;
+     }
+     /* Sample styling for comments and commenting controls */
+     #allcomments {
+         width: 90%;
+         margin: 1em 0 4em 1em;
+         padding: 1%;
+         border: solid 3px rgba(233, 6, 6, 0.767);
+         border-radius: 6px;
+         box-shadow: 2px 2px 2px silver;
+         position: relative;
+         top: 100px;
+     }
+
+     ul#pastcomments {
+         list-style-type: none;
+     }
+
+     ul#pastcomments li:before {
+         font-family: FontAwesome;
+         content: "\f086";
+         font-size: 24pt;
+         color: gray;
+         margin-left: -42px;
+         padding-right: 10px;
+         position: relative;
+         top: 8px;
+     }
+
+     ul#pastcomments li {
+         margin: 0 0 2em 0;
+         padding: 10px;
+     }
+
+     ul#pastcomments li span {
+         font-size: 80%;
+         color: gray;
+         font-style: italic;
+     }
+
+     form#newcomment textarea {
+         height: 72px;
+         resize: none;
+     }
+
+     form#newcomment label {
+         display: inline-block;
+         margin: 1em 0 0 0;
+     }
+
+     form#newcomment textarea,
+     form#newcomment input[type="text"] {
+         margin-top: 0;
+     }
+
+     

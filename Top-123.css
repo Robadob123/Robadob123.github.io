@@ -396,7 +396,6 @@
     max-width: 100%;
     margin: 0 auto;
     padding: 15px 20px;
-    margin-top: 30px;
     display: grid;
     grid-template-columns: 30% auto;
     text-align: center;
@@ -404,7 +403,6 @@
     align-items: center;
     background-color: #c54440;
   }
-
 
   .nav-wrapper a{
       letter-spacing: .1em;
